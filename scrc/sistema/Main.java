@@ -3,16 +3,13 @@ package sistema;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(" SISTEMA DE RESERVA DE CITAS ");
+        System.out.println("SISTEMA DE RESERVA DE CITAS");
         System.out.print("Ingrese nombre del paciente: ");
         String nombre = scanner.nextLine();
 
-        // Se aplica FACTORY METHOD
         Usuario paciente = UsuarioFactory.crearPaciente(nombre);
 
         System.out.println("Seleccione tipo de paciente:");
@@ -20,17 +17,11 @@ public class Main {
         System.out.println("2. Paciente con Seguro");
         int opc = scanner.nextInt();
 
-        EstrategiaPrecio estrategia;
+        EstrategiaPrecio estrategia = (opc == 2) ? new PrecioConSeguro() : new PrecioNormal();
 
-        // Se aplica STRATEGY
-        if (opc == 2) {
-            estrategia = new PrecioConSeguro();
-        } else {
-            estrategia = new PrecioNormal();
-        }
-
-        // Se aplica FACADE
         SistemaCitas sistema = new SistemaCitas();
         sistema.reservarCita(paciente, estrategia);
+
+        sistema.listarReservas(); // Muestra todas las reservas guardadas
     }
 }

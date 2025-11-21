@@ -1,9 +1,11 @@
 package sistema;
+
 public class SistemaCitas {
+
     private final CitaDAO dao = new CitaDAOImpl();
 
     public void reservarCita(Usuario usuario, EstrategiaPrecio estrategia) {
-        double precioBase = 120;
+        double precioBase = 120; // costo estándar de consulta
         double precioFinal = estrategia.calcular(precioBase);
         dao.guardarCita(usuario, precioFinal);
 
