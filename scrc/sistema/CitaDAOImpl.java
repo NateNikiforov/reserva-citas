@@ -1,25 +1,32 @@
 package sistema;
 
-public class SistemaCitas {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final CitaDAO dao = new CitaDAOImpl();
+public class CitaDAOImpl implements CitaDAO {
 
-    public void reservarCita(Usuario usuario, EstrategiaPrecio estrategia) {
-        double precioBase = 120; // costo estándar de consulta
-        double precioFinal = estrategia.calcular(precioBase);
-        dao.guardarCita(usuario, precioFinal);
+    private final List<Cita> db = new ArrayList<>();
 
-        System.out.println("RESERVA EXITOSA");
-        System.out.println("Paciente: " + usuario.getNombre());
-        System.out.println("Precio de la consulta: " + precioFinal);
-        System.out.println("--------------------------");
+    @Override
+    public void guardarCita(Usuario usuario, double precio) {
+        db.add(new Cita(usuario, precio));
     }
 
-    public void listarReservas() {
-        System.out.println("CITAS REGISTRADAS:");
-        for (String s : dao.listarCitas()) {
-            System.out.println(s);
+    @Override
+    public List<String> listarCitas() {
+        List<String> resultado = new ArrayList<>();
+        for (Cita c : db) {
+            resultado.add("Paciente: " + c.getUsuario().getNombre() + ", Precio: " + c.getPrecio());
         }
-        System.out.println("--------------------------");
+        return resultado;
+    }
+
+    @Override
+    public List<Usuario> listarUsuarios() {
+        List<Usuario> pacientes = new ArrayList<>();
+        for (Cita c : db) {
+            pacientes.add(c.getUsuario());
+        }
+        return pacientes;
     }
 }

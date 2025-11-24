@@ -3,10 +3,14 @@ package sistema;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
+        SistemaCitas sistema = new SistemaCitas();
 
         System.out.println("SISTEMA DE RESERVA DE CITAS");
+
         System.out.print("Ingrese nombre del paciente: ");
         String nombre = scanner.nextLine();
 
@@ -19,9 +23,12 @@ public class Main {
 
         EstrategiaPrecio estrategia = (opc == 2) ? new PrecioConSeguro() : new PrecioNormal();
 
-        SistemaCitas sistema = new SistemaCitas();
         sistema.reservarCita(paciente, estrategia);
 
-        sistema.listarReservas(); // Muestra todas las reservas guardadas
+        // Listar todas las reservas
+        sistema.listarReservas();
+
+        // Listar solo pacientes
+        sistema.listarPacientes();
     }
 }
